@@ -20,7 +20,7 @@ public class ServicoUsuario {
 		return repositorio.findAll();
 	}
 	
-	public Usuario buscaPorID(Long id) {
+	public Usuario buscaPorId(Long id) {
 		Optional<Usuario> obj = repositorio.findById(id);
 		return obj.get();
 	}
