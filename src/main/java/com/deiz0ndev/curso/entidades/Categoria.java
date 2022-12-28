@@ -1,12 +1,15 @@
 package com.deiz0ndev.curso.entidades;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Categoria implements Serializable {
@@ -16,6 +19,9 @@ public class Categoria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	private String nome;
+	
+	@Transient
+	private Set<Produto> produtos = new HashSet<>();
 	
 	public Categoria() {
 		
@@ -43,6 +49,10 @@ public class Categoria implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	public Set<Produto> getProdutos() {
+		return produtos;
+	}
 
 	@Override
 	public int hashCode() {
@@ -65,5 +75,6 @@ public class Categoria implements Serializable {
 	public String toString() {
 		return "Categoria [Id=" + Id + ", nome=" + nome + "]";
 	}
-	
+
+
 }

@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.deiz0ndev.curso.entidades.Categoria;
 import com.deiz0ndev.curso.entidades.Pedido;
+import com.deiz0ndev.curso.entidades.Produto;
 import com.deiz0ndev.curso.entidades.Usuario;
 import com.deiz0ndev.curso.entidades.enums.StatusPedido;
 import com.deiz0ndev.curso.repositorios.RepositorioCategoria;
 import com.deiz0ndev.curso.repositorios.RepositorioPedido;
+import com.deiz0ndev.curso.repositorios.RepositorioProduto;
 import com.deiz0ndev.curso.repositorios.RepositorioUsuario;
 
 @Configuration
@@ -28,6 +30,9 @@ public class TesteConfig implements CommandLineRunner {
 	
 	@Autowired
 	private RepositorioCategoria repositorioCategoria;
+	
+	@Autowired 
+	private RepositorioProduto repositorioProduto;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -43,9 +48,16 @@ public class TesteConfig implements CommandLineRunner {
 		Categoria c2 = new Categoria(null, "Livros");
 		Categoria c3 = new Categoria(null, "Computadores");
 		
+		Produto pro1 = new Produto(null, "O senhos dos anéis", "Lorem ipsum dolor sit amet, consectetur.", 90.50, "");
+		Produto pro2 = new Produto(null, "Smart TV", "Tela garnde de alta qualidade", 2190.0, "");
+		Produto pro3 = new Produto(null, "Macbook Pro", "Compacto e poderoso", 1260.0, "");
+		Produto pro4 = new Produto(null, "PC Gamer", "Alto desempenho para todas as atividades.", 1200.0, "");
+		Produto pro5 = new Produto(null, "Trilhos para Dummies", "Cras fringilla convallis sem vel faucibus.", 180.99, "")
+				;
 		repositorioUsuario.saveAll(Arrays.asList(u1, u2));
 		repositorioPedido.saveAll(Arrays.asList(p1, p2, p3));
 		repositorioCategoria.saveAll(Arrays.asList(c1, c2, c3));
+		repositorioProduto.saveAll(Arrays.asList(pro1, pro2, pro3, pro4, pro5));
 	}
 	
 }
