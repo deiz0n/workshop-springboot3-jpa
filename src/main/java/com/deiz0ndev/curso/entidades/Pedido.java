@@ -2,7 +2,9 @@ package com.deiz0ndev.curso.entidades;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.deiz0ndev.curso.entidades.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Pedido implements Serializable {
@@ -30,6 +33,9 @@ public class Pedido implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Usuario cliente; 
+	
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemsPedido> items = new HashSet<>();
 	
 	public Pedido() {
 	}
@@ -62,6 +68,10 @@ public class Pedido implements Serializable {
 	
 	public Usuario getCliente() {
 		return cliente;
+	}
+	
+	public Set<ItemsPedido> getItems() {
+		return items;
 	}
 	
 	@Override

@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.deiz0ndev.curso.entidades.Categoria;
+import com.deiz0ndev.curso.entidades.ItemsPedido;
 import com.deiz0ndev.curso.entidades.Pedido;
 import com.deiz0ndev.curso.entidades.Produto;
 import com.deiz0ndev.curso.entidades.Usuario;
 import com.deiz0ndev.curso.entidades.enums.StatusPedido;
 import com.deiz0ndev.curso.repositorios.RepositorioCategoria;
+import com.deiz0ndev.curso.repositorios.RepositorioItemPedido;
 import com.deiz0ndev.curso.repositorios.RepositorioPedido;
 import com.deiz0ndev.curso.repositorios.RepositorioProduto;
 import com.deiz0ndev.curso.repositorios.RepositorioUsuario;
@@ -33,6 +35,9 @@ public class TesteConfig implements CommandLineRunner {
 	
 	@Autowired 
 	private RepositorioProduto repositorioProduto;
+	
+	@Autowired
+	private RepositorioItemPedido repositorioItemPedido;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -58,6 +63,22 @@ public class TesteConfig implements CommandLineRunner {
 		repositorioPedido.saveAll(Arrays.asList(p1, p2, p3));
 		repositorioCategoria.saveAll(Arrays.asList(c1, c2, c3));
 		repositorioProduto.saveAll(Arrays.asList(pro1, pro2, pro3, pro4, pro5));
+		
+		pro1.getCategorias().add(c2);
+		pro2.getCategorias().add(c1);
+		pro2.getCategorias().add(c3);
+		pro3.getCategorias().add(c3);
+		pro4.getCategorias().add(c3);
+		pro5.getCategorias().add(c2);
+		
+		repositorioProduto.saveAll(Arrays.asList(pro1, pro2, pro3, pro4, pro5));
+		
+		ItemsPedido ip1 = new ItemsPedido(p1, pro1, 2, pro1.getPreco());
+		ItemsPedido ip2 = new ItemsPedido(p1, pro3, 1, pro4.getPreco());
+		ItemsPedido ip3 = new ItemsPedido(p2, pro3, 2, pro1.getPreco());
+		ItemsPedido ip4 = new ItemsPedido(p3, pro5, 2, pro5.getPreco());
+		
+		repositorioItemPedido.saveAll(Arrays.asList(ip1, ip2, ip3, ip4));
 	}
 	
 }
