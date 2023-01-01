@@ -42,4 +42,10 @@ public class RecursoUsuario {
 		servico.deletar(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+		usuario = servico.atualizar(id, usuario);
+		return ResponseEntity.ok().body(usuario);
+	}
 }
