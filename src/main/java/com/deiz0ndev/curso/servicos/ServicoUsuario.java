@@ -3,6 +3,7 @@ package com.deiz0ndev.curso.servicos;
 import java.util.List;
 import java.util.Optional;
 
+import com.deiz0ndev.curso.servicos.excecoes.ExcecaoRecursoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,8 @@ public class ServicoUsuario {
 	}
 	
 	public Usuario buscaPorId(Long id) {
-		Optional<Usuario> obj = repositorio.findById(id);
-		return obj.get();
+		Optional<Usuario> usuario = repositorio.findById(id);
+		return usuario.orElseThrow(() -> new ExcecaoRecursoNaoEncontrado(id));
 	}
 
 	public Usuario inserir(Usuario usuario) {
