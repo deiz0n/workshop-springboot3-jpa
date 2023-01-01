@@ -64,6 +64,10 @@ public class ItemsPedido implements Serializable {
 		this.preco = preco;
 	}
 
+	public Double getValorTotal() {
+		return getPreco() * getQuantidade();
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

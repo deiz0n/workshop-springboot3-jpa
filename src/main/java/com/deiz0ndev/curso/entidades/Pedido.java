@@ -86,7 +86,15 @@ public class Pedido implements Serializable {
 	public void setPagamento(Pagamento pagamento) {
 		this.pagamento = pagamento;
 	}
-	
+
+	public Double getTotal() {
+		double soma = 0.0;
+		for (ItemsPedido x : items) {
+			soma += x.getValorTotal();
+		}
+		return soma;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
