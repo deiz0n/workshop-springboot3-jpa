@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.deiz0ndev.curso.servicos.excecoes.ExcecaoBancoDeDados;
 import com.deiz0ndev.curso.servicos.excecoes.ExcecaoRecursoNaoEncontrado;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -44,9 +45,13 @@ public class ServicoUsuario {
 	}
 
 	public Usuario atualizar(Long id, Usuario usuario) {
-		Usuario entidade = repositorio.getReferenceById(id);
-		atualizarDados(entidade, usuario);
-		return repositorio.save(entidade);
+		try {
+			Usuario entidade = repositorio.getReferenceById(id);
+			atualizarDados(entidade, usuario);
+			return repositorio.save(entidade);
+		} catch (EntityNotFoundException e) {
+			throw new ExcecaoRecursoNaoEncontrado(id);
+		}
 	}
 
 	private void atualizarDados(Usuario entidade, Usuario usuario) {
