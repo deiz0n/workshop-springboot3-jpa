@@ -3,8 +3,11 @@ package com.deiz0ndev.curso.servicos;
 import java.util.List;
 import java.util.Optional;
 
+import com.deiz0ndev.curso.servicos.excecoes.ExcecaoBancoDeDados;
 import com.deiz0ndev.curso.servicos.excecoes.ExcecaoRecursoNaoEncontrado;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.deiz0ndev.curso.entidades.Usuario;
@@ -31,7 +34,13 @@ public class ServicoUsuario {
 	}
 
 	public void deletar(Long id) {
-		repositorio.deleteById(id);
+		try {
+			repositorio.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ExcecaoRecursoNaoEncontrado(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new ExcecaoBancoDeDados(e.getMessage());
+		}
 	}
 
 	public Usuario atualizar(Long id, Usuario usuario) {

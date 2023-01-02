@@ -1,5 +1,6 @@
 package com.deiz0ndev.curso.recursos.excecoes;
 
+import com.deiz0ndev.curso.servicos.excecoes.ExcecaoBancoDeDados;
 import com.deiz0ndev.curso.servicos.excecoes.ExcecaoRecursoNaoEncontrado;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,14 @@ public class ExcecaoRecursoManual {
     public ResponseEntity<ErroPadrao> excecaoRecursoNaoEncontrado(ExcecaoRecursoNaoEncontrado e, HttpServletRequest requisicao) {
         String erro = "Recurso não encontrado";
         HttpStatus status = HttpStatus.NOT_FOUND;
+        ErroPadrao err = new ErroPadrao(Instant.now(), status.value(), erro, e.getMessage(), requisicao.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ExcecaoBancoDeDados.class)
+    public ResponseEntity<ErroPadrao> bancoDeDados(ExcecaoBancoDeDados e, HttpServletRequest requisicao) {
+        String erro = "Erro no banco de dados";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         ErroPadrao err = new ErroPadrao(Instant.now(), status.value(), erro, e.getMessage(), requisicao.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
